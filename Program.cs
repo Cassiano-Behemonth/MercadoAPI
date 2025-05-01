@@ -1,5 +1,6 @@
 using MercadoAPI.Data;
 using Microsoft.EntityFrameworkCore;
+using MercadoAPI.Endpoints;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,6 +12,6 @@ var app = builder.Build();
 
 app.MapGet("/", () => "API de Estoque de Mercado - funcionando!");
 
-
+app.MapCategoriaEndpoints();
 
 app.Run();
