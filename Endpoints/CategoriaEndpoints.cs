@@ -8,13 +8,11 @@ public static class CategoriaEndpoints
 {
     public static void MapCategoriaEndpoints(this WebApplication app)
     {
-        // Listar todas as categorias
         app.MapGet("/categorias", async (AppDbContext db) =>
         {
             return await db.Categorias.ToListAsync();
         });
 
-        // Buscar categoria por ID
         app.MapGet("/categorias/{id}", async (int id, AppDbContext db) =>
         {
             var categoria = await db.Categorias.FindAsync(id);
