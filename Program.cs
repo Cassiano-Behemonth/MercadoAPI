@@ -25,4 +25,7 @@ app.UseSwaggerUI();
 app.MapCategoriaEndpoints();
 app.MapProdutoEndpoints();
 
+app.MapControllers();
+
+
 app.Run();
