@@ -1,20 +1,15 @@
 using MercadoAPI.Data;
-using MercadoAPI.Endpoints;
 using Microsoft.EntityFrameworkCore;
-using System.Text.Json.Serialization;
+using MercadoAPI.Endpoints;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseSqlite("Data Source=mercado.db"));
-
-builder.Services.AddControllers().AddJsonOptions(x =>
-    x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles
-);
-
 
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen();          
+
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseSqlite("Data Source=mercado.db"));
 
 var app = builder.Build();
 
@@ -22,10 +17,8 @@ var app = builder.Build();
 app.UseSwagger();
 app.UseSwaggerUI();
 
+app.MapGet("/", () => "API de Estoque de Mercado - funcionando!");
 app.MapCategoriaEndpoints();
 app.MapProdutoEndpoints();
-
-app.MapControllers();
-
 
 app.Run();

@@ -1,0 +1,49 @@
+### Obter todas as categorias
+GET http://localhost:5034/categorias
+Accept: application/json
+
+###
+
+### Obter uma categoria pelo ID
+GET http://localhost:5034/categorias/2
+Accept: application/json
+
+
+### Listar todos os produtos
+GET http://localhost:5034/produtos
+Accept: application/json
+
+###
+
+### Buscar produto por ID
+GET http://localhost:5034/produtos/1
+Accept: application/json
+
+###
+
+### Criar um novo produto
+POST http://localhost:5034/produtos
+Content-Type: application/json
+
+{
+  "nome": "Café Torrado",
+  "preco": 14.90,
+  "categoriaId": 1
+}
+
+###
+
+### Atualizar um produto existente
+PUT http://localhost:5034/produtos/1
+Content-Type: application/json
+
+{
+  "nome": "Café Premium",
+  "preco": 18.50,
+  "categoriaId": 1
+}
+
+###
+
+### Deletar um produto
+DELETE http://localhost:5000/produtos/1
