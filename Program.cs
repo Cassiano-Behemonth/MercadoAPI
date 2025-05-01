@@ -14,4 +14,6 @@ app.MapGet("/", () => "API de Estoque de Mercado - funcionando!");
 
 app.MapCategoriaEndpoints();
 
+app.MapProdutoEndpoints();
+
 app.Run();
