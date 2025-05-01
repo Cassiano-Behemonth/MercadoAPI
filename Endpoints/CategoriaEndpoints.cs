@@ -10,13 +10,48 @@ public static class CategoriaEndpoints
     {
         app.MapGet("/categorias", async (AppDbContext db) =>
         {
-            return await db.Categorias.ToListAsync();
+            try
+            {
+                var categorias = await db.Categorias.ToListAsync();
+                return Results.Ok(categorias);
+            }
+            catch (Exception ex)
+            {
+                return Results.Problem("Erro ao buscar categorias: " + ex.Message);
+            }
         });
 
         app.MapGet("/categorias/{id}", async (int id, AppDbContext db) =>
         {
-            var categoria = await db.Categorias.FindAsync(id);
-            return categoria is not null ? Results.Ok(categoria) : Results.NotFound();
+            try
+            {
+                var categoria = await db.Categorias.FindAsync(id);
+                return categoria is not null ? Results.Ok(categoria) : Results.NotFound();
+            }
+            catch (Exception ex)
+            {
+                return Results.Problem("Erro ao buscar categoria: " + ex.Message);
+            }
+        });
+
+        // (Opcional) Adicionando um POST com validação
+        app.MapPost("/categorias", async (Categoria categoria, AppDbContext db) =>
+        {
+            try
+            {
+                if (string.IsNullOrWhiteSpace(categoria.Nome))
+                {
+                    return Results.BadRequest("O nome da categoria é obrigatório.");
+                }
+
+                db.Categorias.Add(categoria);
+                await db.SaveChangesAsync();
+                return Results.Created($"/categorias/{categoria.Id}", categoria);
+            }
+            catch (Exception ex)
+            {
+                return Results.Problem("Erro ao cadastrar categoria: " + ex.Message);
+            }
         });
     }
 }
