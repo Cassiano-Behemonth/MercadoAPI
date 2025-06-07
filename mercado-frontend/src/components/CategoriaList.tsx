@@ -6,19 +6,15 @@ import CategoriaForm from './CategoriaForm';
 export default function CategoriaList() {
   const [categorias, setCategorias] = useState<Categoria[]>([]);
 
-  const carregarCategorias = () => {
+  useEffect(() => {
     api.get<Categoria[]>('/categorias')
       .then(res => setCategorias(res.data))
       .catch(err => console.error('Erro ao buscar categorias:', err));
-  };
-
-  useEffect(() => {
-    carregarCategorias();
   }, []);
 
   return (
     <div>
-      <CategoriaForm onSave={carregarCategorias} />
+      <CategoriaForm categorias={categorias} setCategorias={setCategorias} />
       <hr />
       <h2>Lista de Categorias</h2>
       <ul>

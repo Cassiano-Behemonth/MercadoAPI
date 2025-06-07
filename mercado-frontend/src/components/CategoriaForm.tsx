@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import api from '../services/api';
+import { Categoria } from '../types/interfaces';
 
 interface Props {
-  onSave: () => void;
+  categorias: Categoria[];
+  setCategorias: (cats: Categoria[]) => void;
 }
 
-export default function CategoriaForm({ onSave }: Props) {
+export default function CategoriaForm({ categorias, setCategorias }: Props) {
   const [nome, setNome] = useState('');
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -13,15 +15,22 @@ export default function CategoriaForm({ onSave }: Props) {
 
     if (!nome.trim()) return;
 
+    const novaCategoria: Categoria = {
+      id: Math.max(0, ...categorias.map(c => c.id)) + 1,
+      nome
+    };
+
+    setCategorias([novaCategoria, ...categorias]);
+
+    setNome('');
+
     api.post('/categorias', { nome })
-      .then(() => {
-        alert('Categoria cadastrada com sucesso!');
-        setNome('');
-        onSave(); // recarrega a lista
+      .then(res => {
+        console.log('Categoria cadastrada com sucesso!', res.data);
       })
       .catch(err => {
-        console.error('Erro ao cadastrar categoria:', err);
-        alert('Erro ao cadastrar categoria. Verifique o console.');
+        alert('Erro ao cadastrar no backend!');
+        console.error(err);
       });
   };
 
@@ -39,3 +48,4 @@ export default function CategoriaForm({ onSave }: Props) {
     </form>
   );
 }
+
