@@ -1,15 +1,17 @@
 import React from 'react';
 import ProdutoList from './components/ProdutoList';
-import ProdutoForm from './components/ProdutoForm';
+import CategoriaList from './components/CategoriaList';
 
-function App() {
+export default function App() {
   return (
-    <div style={{ padding: '20px' }}>
-      <ProdutoForm />
+    <div style={{ padding: '20px', fontFamily: 'Arial' }}>
+      <h1>Gestão de Produtos e Categorias</h1>
       <hr />
+
       <ProdutoList />
+
+      <hr />
+      <CategoriaList />
     </div>
   );
 }
-
-export default App;
