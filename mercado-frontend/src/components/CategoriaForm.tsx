@@ -1,36 +1,25 @@
 import React, { useState } from 'react';
 import api from '../services/api';
-import { Categoria } from '../types/interfaces';
 
 interface Props {
-  categorias: Categoria[];
-  setCategorias: (cats: Categoria[]) => void;
+  onCategoriaAdicionada: () => void; // função que será chamada após cadastro
 }
 
-export default function CategoriaForm({ categorias, setCategorias }: Props) {
+export default function CategoriaForm({ onCategoriaAdicionada }: Props) {
   const [nome, setNome] = useState('');
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!nome.trim()) return;
-
-    const novaCategoria: Categoria = {
-      id: Math.max(0, ...categorias.map(c => c.id)) + 1,
-      nome
-    };
-
-    setCategorias([novaCategoria, ...categorias]);
-
-    setNome('');
-
     api.post('/categorias', { nome })
-      .then(res => {
-        console.log('Categoria cadastrada com sucesso!', res.data);
+      .then(() => {
+        alert('Categoria cadastrada com sucesso!');
+        setNome('');
+        onCategoriaAdicionada(); // ← força o recarregamento da lista após sucesso
       })
       .catch(err => {
-        alert('Erro ao cadastrar no backend!');
-        console.error(err);
+        console.error('Erro ao cadastrar categoria:', err);
+        alert('Erro ao cadastrar categoria.');
       });
   };
 
@@ -48,4 +37,3 @@ export default function CategoriaForm({ categorias, setCategorias }: Props) {
     </form>
   );
 }
-
