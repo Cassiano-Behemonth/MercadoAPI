@@ -1,18 +1,25 @@
 import React, { useEffect, useState } from 'react';
 import api from '../services/api';
 import { Categoria } from '../types/interfaces';
+import CategoriaForm from './CategoriaForm';
 
 export default function CategoriaList() {
   const [categorias, setCategorias] = useState<Categoria[]>([]);
 
-  useEffect(() => {
+  const carregarCategorias = () => {
     api.get<Categoria[]>('/categorias')
       .then(res => setCategorias(res.data))
       .catch(err => console.error('Erro ao buscar categorias:', err));
+  };
+
+  useEffect(() => {
+    carregarCategorias();
   }, []);
 
   return (
     <div>
+      <CategoriaForm onSave={carregarCategorias} />
+      <hr />
       <h2>Lista de Categorias</h2>
       <ul>
         {categorias.map(cat => (
