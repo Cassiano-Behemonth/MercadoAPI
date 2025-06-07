@@ -46,6 +46,8 @@ public static class ProdutoEndpoints
 
                 db.Produtos.Add(produto);
                 await db.SaveChangesAsync();
+                //return Results.Created($"/produtos/{produto.Id}", produto);
+                await db.Entry(produto).Reference(p => p.Categoria).LoadAsync();
                 return Results.Created($"/produtos/{produto.Id}", produto);
             }
             catch (Exception ex)
