@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import api from '../services/api';
+import './CategoriaForm.css';
 
 interface Props {
-  onCategoriaAdicionada: () => void; // função que será chamada após cadastro
+  onCategoriaAdicionada: () => void; 
 }
 
 export default function CategoriaForm({ onCategoriaAdicionada }: Props) {
@@ -15,7 +16,7 @@ export default function CategoriaForm({ onCategoriaAdicionada }: Props) {
       .then(() => {
         alert('Categoria cadastrada com sucesso!');
         setNome('');
-        onCategoriaAdicionada(); // ← força o recarregamento da lista após sucesso
+        onCategoriaAdicionada(); 
       })
       .catch(err => {
         console.error('Erro ao cadastrar categoria:', err);
@@ -24,7 +25,7 @@ export default function CategoriaForm({ onCategoriaAdicionada }: Props) {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+  <form className="categoria-form" onSubmit={handleSubmit}>
       <h2>Cadastrar Nova Categoria</h2>
       <input
         type="text"
