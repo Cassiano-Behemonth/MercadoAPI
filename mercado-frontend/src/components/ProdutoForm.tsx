@@ -6,9 +6,10 @@ import './Produto.css';
 interface ProdutoFormProps {
   produtoEditavel?: Produto;
   onSave: () => void;
+  onCancelEdit: () => void; // ✅ ADICIONADO
 }
 
-export default function ProdutoForm({ produtoEditavel, onSave }: ProdutoFormProps) {
+export default function ProdutoForm({ produtoEditavel, onSave, onCancelEdit }: ProdutoFormProps) {
   const [nome, setNome] = useState('');
   const [preco, setPreco] = useState<string>('');          
   const [categoriaId, setCategoriaId] = useState<number>(0);
@@ -47,6 +48,7 @@ export default function ProdutoForm({ produtoEditavel, onSave }: ProdutoFormProp
         setPreco('');                                      
         setCategoriaId(0);
         onSave();
+        if (produtoEditavel) onCancelEdit(); // ✅ Finaliza edição
       })
       .catch(err => console.error('Erro ao salvar produto:', err));
   };
@@ -85,6 +87,17 @@ export default function ProdutoForm({ produtoEditavel, onSave }: ProdutoFormProp
       <button type="submit">
         {produtoEditavel ? 'Atualizar' : 'Cadastrar'}
       </button>
+
+      {/* Botão de cancelar edição */}
+      {produtoEditavel && (
+        <button
+          type="button"
+          onClick={onCancelEdit}
+          style={{ marginLeft: '10px', backgroundColor: '#aaa' }}
+        >
+          Cancelar
+        </button>
+      )}
     </form>
   );
 }
