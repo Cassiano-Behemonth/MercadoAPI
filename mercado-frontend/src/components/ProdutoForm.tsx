@@ -10,7 +10,7 @@ interface ProdutoFormProps {
 
 export default function ProdutoForm({ produtoEditavel, onSave }: ProdutoFormProps) {
   const [nome, setNome] = useState('');
-  const [preco, setPreco] = useState<string>('');          // ❶ string vazia
+  const [preco, setPreco] = useState<string>('');          
   const [categoriaId, setCategoriaId] = useState<number>(0);
   const [categorias, setCategorias] = useState<Categoria[]>([]);
 
@@ -22,7 +22,7 @@ export default function ProdutoForm({ produtoEditavel, onSave }: ProdutoFormProp
   useEffect(() => {
     if (produtoEditavel) {
       setNome(produtoEditavel.nome);
-      setPreco(produtoEditavel.preco.toString());          // ❷ converte nº → string
+      setPreco(produtoEditavel.preco.toString());        
       setCategoriaId(produtoEditavel.categoriaId);
     }
   }, [produtoEditavel]);
@@ -32,7 +32,7 @@ export default function ProdutoForm({ produtoEditavel, onSave }: ProdutoFormProp
 
     const dados = {
       nome,
-      preco: Number(preco),                                // ❸ string → número
+      preco: Number(preco),                              
       categoriaId
     };
 
@@ -44,7 +44,7 @@ export default function ProdutoForm({ produtoEditavel, onSave }: ProdutoFormProp
       .then(() => {
         alert(produtoEditavel ? 'Produto atualizado!' : 'Produto cadastrado!');
         setNome('');
-        setPreco('');                                      // ❹ limpa para próximo uso
+        setPreco('');                                      
         setCategoriaId(0);
         onSave();
       })
@@ -65,7 +65,7 @@ export default function ProdutoForm({ produtoEditavel, onSave }: ProdutoFormProp
       <label>Preço:</label><br />
       <input
         type="number"
-        value={preco}                              // agora exibe vazio
+        value={preco}                              
         onChange={(e) => setPreco(e.target.value)}
         required
       /><br />
