@@ -29,7 +29,11 @@ export default function ProdutoList() {
 
   return (
     <div className="produto-list-container">
-      <ProdutoForm produtoEditavel={produtoEditavel} onSave={carregarProdutos} />
+      <ProdutoForm
+        produtoEditavel={produtoEditavel}
+        onSave={carregarProdutos}
+        onCancelEdit={() => setProdutoEditavel(undefined)}
+      />
       <hr />
       <h2>Lista de Produtos</h2>
       <ul>
