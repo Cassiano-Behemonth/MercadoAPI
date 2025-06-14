@@ -6,7 +6,7 @@ import './Produto.css';
 interface ProdutoFormProps {
   produtoEditavel?: Produto;
   onSave: () => void;
-  onCancelEdit: () => void; // ✅ ADICIONADO
+  onCancelEdit: () => void; 
 }
 
 export default function ProdutoForm({ produtoEditavel, onSave, onCancelEdit }: ProdutoFormProps) {
@@ -16,9 +16,14 @@ export default function ProdutoForm({ produtoEditavel, onSave, onCancelEdit }: P
   const [categorias, setCategorias] = useState<Categoria[]>([]);
 
   useEffect(() => {
+    carregarCategorias();
+  }, []);
+
+  const carregarCategorias = () => {
     api.get<Categoria[]>('/categorias')
       .then(res => setCategorias(res.data));
-  }, []);
+  };
+
 
   useEffect(() => {
     if (produtoEditavel) {
@@ -48,7 +53,7 @@ export default function ProdutoForm({ produtoEditavel, onSave, onCancelEdit }: P
         setPreco('');                                      
         setCategoriaId(0);
         onSave();
-        if (produtoEditavel) onCancelEdit(); // ✅ Finaliza edição
+        if (produtoEditavel) onCancelEdit();
       })
       .catch(err => console.error('Erro ao salvar produto:', err));
   };
@@ -76,6 +81,9 @@ export default function ProdutoForm({ produtoEditavel, onSave, onCancelEdit }: P
       <select
         value={categoriaId}
         onChange={(e) => setCategoriaId(Number(e.target.value))}
+        onFocus={() => {
+          api.get<Categoria[]>('/categorias').then(res => setCategorias(res.data));
+        }}
         required
       >
         <option value="">Selecione uma categoria</option>
@@ -83,6 +91,7 @@ export default function ProdutoForm({ produtoEditavel, onSave, onCancelEdit }: P
           <option key={c.id} value={c.id}>{c.nome}</option>
         ))}
       </select><br /><br />
+
 
       <button type="submit">
         {produtoEditavel ? 'Atualizar' : 'Cadastrar'}
